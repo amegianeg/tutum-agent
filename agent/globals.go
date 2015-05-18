@@ -25,6 +25,7 @@ var (
 	DockerBinaryURL           = "https://files.tutum.co/packages/docker/latest.json"
 	NgrokBinaryURL            = ""
 	NgrokHost                 = ""
+	NodePublicIp              = ""
 )
 
 const (

@@ -16,6 +16,7 @@ type RegResponseForm struct {
 	CertCommonName  string `json:"external_fqdn"`
 	DockerBinaryURL string `json:"docker_url"`
 	NgrokBinaryURL  string `json:"ngrok_url"`
+	PublicIpAddress string `json:"public_ip"`
 }
 
 type RegPostForm struct {
@@ -180,6 +181,7 @@ func handleRegResponse(body []byte, caFilePath, configFilePath string) error {
 	}
 
 	DockerBinaryURL = responseForm.DockerBinaryURL
+	NodePublicIp = responseForm.PublicIpAddress
 
 	if responseForm.NgrokBinaryURL != "" {
 		NgrokBinaryURL = responseForm.NgrokBinaryURL

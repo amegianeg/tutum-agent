@@ -20,13 +20,13 @@ type TunnelPatchForm struct {
 	Version string `json:"agent_version"`
 }
 
-func NatTunnel(url, ngrokPath, ngrokLogPath, ngrokConfPath string) {
+func NatTunnel(url, ngrokPath, ngrokLogPath, ngrokConfPath, ip string) {
 	if !utils.FileExist(ngrokPath) {
 		Logger.Printf("Cannot find NAT tunnel binary (%s)", ngrokPath)
 		return
 	}
 
-	if !isNodeNated() {
+	if !isNodeNated(ip) {
 		return
 	}
 
@@ -158,7 +158,7 @@ func updateNgrokHost(url string) {
 	}
 }
 
-func isNodeNated() bool {
+func isNodeNated(ip string) bool {
 	for {
 		_, err := net.Dial("tcp", fmt.Sprintf("%s:%s", "localhost", DockerHostPort))
 		if err == nil {
@@ -168,13 +168,18 @@ func isNodeNated() bool {
 		}
 	}
 
-	Logger.Printf("Testing if docker port %s is publicly reachable...", DockerHostPort)
-	_, err := net.Dial("tcp", fmt.Sprintf("%s:%s", Conf.CertCommonName, DockerHostPort))
+	address := ip
+	if address == "" {
+		Logger.Printf("Node public IP address return from server is empty, use FQDN instead.")
+		address = Conf.CertCommonName
+	}
+	Logger.Printf("Testing if node %s(%s:%s) is publicly reachable...", Conf.CertCommonName, address, DockerHostPort)
+	_, err := net.Dial("tcp", fmt.Sprintf("%s:%s", address, DockerHostPort))
 	if err == nil {
-		Logger.Printf("Port %s is publicly reachable", DockerHostPort)
+		Logger.Printf("Node %s(%s:%s) is publicly reachable", Conf.CertCommonName, address, DockerHostPort)
 		return false
 	} else {
-		Logger.Printf("Port %s is not publicly reachable: %s", DockerHostPort, err)
+		Logger.Printf("Node %s(%s:%s) is not publicly reachable: %s", Conf.CertCommonName, address, DockerHostPort, err)
 		return true
 	}
 }

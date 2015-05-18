@@ -99,7 +99,7 @@ func main() {
 			Logger.Println("Skip NAT tunnel")
 		} else {
 			Logger.Println("Loading NAT tunnel module...")
-			go NatTunnel(regUrl, ngrokPath, ngrokLogPath, ngrokConfPath)
+			go NatTunnel(regUrl, ngrokPath, ngrokLogPath, ngrokConfPath, NodePublicIp)
 		}
 	}
 
