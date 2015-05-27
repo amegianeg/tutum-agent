@@ -73,7 +73,8 @@ func PatchToTutum(url, caFilePath, certFilePath, configFilePath string) error {
 
 func VerifyRegistration(url string) {
 	headers := []string{"Authorization TutumAgentToken " + Conf.TutumToken,
-		"Content-Type application/json"}
+		"Content-Type application/json",
+		"User-Agent tutum-agent/" + VERSION}
 	body, err := SendRequest("GET", utils.JoinURL(url, Conf.TutumUUID), nil, headers)
 	if err != nil {
 		SendError(err, "SendRequest error", nil)
@@ -148,7 +149,8 @@ func register(url, method, token, uuid, caFilePath, configFilePath string, data 
 
 func sendRegRequest(url, method, token, uuid string, data []byte) ([]byte, error) {
 	headers := []string{"Authorization TutumAgentToken " + token,
-		"Content-Type application/json"}
+		"Content-Type application/json",
+		"User-Agent tutum-agent/" + VERSION}
 	return SendRequest(method, utils.JoinURL(url, uuid), data, headers)
 
 }
