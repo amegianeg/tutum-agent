@@ -160,7 +160,7 @@ func updateNgrokHost(url string) {
 
 func isNodeNated(ip string) bool {
 	for {
-		_, err := net.Dial("tcp", fmt.Sprintf("%s:%s", "localhost", DockerHostPort))
+		_, err := net.DialTimeout("tcp", fmt.Sprintf("%s:%s", "localhost", DockerHostPort), DialTimeOut*time.Second)
 		if err == nil {
 			break
 		} else {
@@ -174,7 +174,7 @@ func isNodeNated(ip string) bool {
 		address = Conf.CertCommonName
 	}
 	Logger.Printf("Testing if node %s(%s:%s) is publicly reachable...", Conf.CertCommonName, address, DockerHostPort)
-	_, err := net.Dial("tcp", fmt.Sprintf("%s:%s", address, DockerHostPort))
+	_, err := net.DialTimeout("tcp", fmt.Sprintf("%s:%s", address, DockerHostPort), DialTimeOut*time.Second)
 	if err == nil {
 		Logger.Printf("Node %s(%s:%s) is publicly reachable", Conf.CertCommonName, address, DockerHostPort)
 		return false

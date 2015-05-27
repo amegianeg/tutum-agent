@@ -64,4 +64,6 @@ const (
 	ReniceSleepTime = 5 //seconds
 
 	DockerHostPort = "2375"
+
+	DialTimeOut = 10 //seconds
 )
