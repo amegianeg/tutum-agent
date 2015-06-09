@@ -103,7 +103,7 @@ EOF
       --conflicts docker \
       --conflicts docker.io \
       --conflicts lxc-docker \
-      --depends cgroup-lite \
+      --deb-recommends "cgroup-lite | cgroupfs-mount" \
       --depends aufs-tools \
       --depends iptables \
       --depends "libapparmor1 >= 2.6~devel" \
